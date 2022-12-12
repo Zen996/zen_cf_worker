@@ -30,7 +30,10 @@ export default {
 };
 
 async function handleRequest(request) {
-  
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Content-type': 'application/json',
+    };
   const clientIP = request.headers.get('CF-Connecting-IP');
 
   if (request.cf ) {
@@ -38,13 +41,11 @@ async function handleRequest(request) {
     var clientCountry = request.cf.country
   }
   if (clientCountry != null && clientCountry != "SG") {
-    const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Content-type': 'application/json',
-    };
+    
 
     return new Response("redirect",{status: 200, headers: headers});
 
   } 
-  return new Response("This is your IP " + clientIP + " and you are accessing this site from "+ clientCountry + "|" + clientASN)
+  return new Response("This is your IP " + clientIP + " and you are accessing this site from "+ clientCountry + "|" + clientASN,{status: 200, headers: headers})
 }
+
